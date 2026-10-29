@@ -1,6 +1,12 @@
-# Chobble Client Site Builder
+# Chobble Coding Standards
 
-Quick static site generator that combines the [Chobble Template](https://git.chobble.com/chobble/chobble-template/) with your content.
+A field guide to the rules, checks, tests and proofs used to keep LLM-written
+code on the straight and narrow. The content lives in `pages/`,
+`guide-categories/` (the five technique sections) and `guide-pages/` (one page
+per technique). Most examples link to
+[chobbledotcom/tickets](https://github.com/chobbledotcom/tickets).
+
+The site is a Chobble client: it combines the [Chobble Template](https://git.chobble.com/chobble/chobble-template/) with this content.
 
 ## Quick Start
 

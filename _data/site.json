@@ -1,13 +1,15 @@
 {
-	"name": "",
-	"url": "https://example.chobble.com",
+	"name": "Chobble Coding Standards",
+	"tagline": "How I keep code, and the LLMs that write it, on the straight and narrow",
+	"url": "https://coding-standards.chobble.com",
+	"description": "A field guide to the rules, checks, tests and proofs behind Chobble's software: AGENTS.md, ratchets, jscpd, knip, 100% coverage, mutation testing, Cucumber specs, nightly sandbox runs, state machines and Apalache models.",
 	"socials": {
 		"Facebook": null,
-		"Instagram": "https://www.instagram.com/chobbledotcom/",
+		"Instagram": null,
 		"TikTok": null,
 		"Google": null,
 		"WhatsApp": null,
-		"RSS": "/feed.xml"
+		"RSS": null
 	},
 	"sticky_mobile_nav": true,
 	"horizontal_nav": true,

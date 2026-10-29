@@ -1,2 +1,167 @@
 @charset "utf-8";
 @use "sass:color";
+
+// =============================================================================
+// CHOBBLE CODING STANDARDS — THEME
+// =============================================================================
+// Overlays the chobble-template design system. Loaded last, so it wins.
+// A quiet "lab notebook" look: warm paper, dark ink, one green accent for
+// passing checks and one rust accent for warnings.
+// =============================================================================
+
+:root {
+  --color-bg: #f6f4ee;
+  --body-background: #f6f4ee;
+  --body-background-alt: #edeae1;
+  --color-card-bg: #fffdf8;
+  --color-text: #1d2321;
+  --color-text-muted: #5c625e;
+  --color-link: #1f6f4a;
+  --color-link-hover: #144d33;
+  --color-tint: #dcefe3;
+  --color-secondary: #b4532a;
+  --color-accent: #e4e0d4;
+  --color-hover-bg: rgb(29 35 33 / 6%);
+
+  --font-family-body:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-family-heading:
+    "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052, Charter,
+    Georgia, serif;
+  --font-family-mono:
+    ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+.design-system {
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.01em;
+  }
+
+  // Long-form pages read best at a measure of about 75 characters. Tables
+  // and code keep the full width so wide rows do not wrap.
+  .prose {
+    > p,
+    > ul,
+    > ol,
+    > blockquote,
+    > h2,
+    > h3,
+    > h4 {
+      max-width: 46rem;
+    }
+
+    h2 {
+      margin-top: 2.5rem;
+      font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.1rem);
+    }
+
+    h3 {
+      font-size: 1.3rem;
+    }
+
+    blockquote {
+      margin-inline: 0;
+      padding: 0.75rem 1.25rem;
+      border-left: 4px solid var(--color-link);
+      border-radius: 0 6px 6px 0;
+      color: var(--color-text);
+      background: var(--color-tint);
+      font-style: normal;
+
+      p {
+        margin: 0.4rem 0;
+      }
+    }
+
+    pre {
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+
+    table {
+      font-size: 0.95rem;
+    }
+
+    td code,
+    th code {
+      white-space: nowrap;
+    }
+
+    @media screen and (max-width: 768px) {
+      table {
+        display: block;
+        overflow-x: auto;
+        font-size: 0.85rem;
+      }
+
+      td code,
+      th code {
+        white-space: normal;
+      }
+    }
+  }
+
+  // Guide headers: a compact title band rather than a full hero.
+  .guide-header {
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      max-width: 40rem;
+      color: var(--color-text-muted);
+      font-family: var(--font-family-body);
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }
+
+  section:has(> div > .guide-header) {
+    padding-block: 3rem 1rem;
+  }
+
+  // The "back to category" link sits under the title as a plain link,
+  // not as a card in its own full-height section.
+  section:has(> div > .guide-navigation) {
+    padding-block: 0;
+    background: var(--body-background-alt);
+  }
+
+  section:has(> div > .guide-navigation) + section {
+    padding-top: 3rem;
+  }
+
+  // The template styles every `nav` as the sticky site menu, so the guide
+  // link needs that undone with matching specificity.
+  &.sticky-mobile-nav nav.guide-navigation,
+  &.horizontal-nav nav.guide-navigation,
+  nav.guide-navigation {
+    position: static;
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 0 0 2rem;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+
+    a {
+      font-weight: 600;
+    }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 1.4rem + 3.5vw, 3.6rem);
+  }
+
+  .badge {
+    color: var(--color-link-hover);
+    background: var(--color-tint);
+  }
+}
