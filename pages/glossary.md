@@ -343,6 +343,16 @@ blocks:
       arrives. Both repositories use [Valibot](https://valibot.dev/guides/introduction/)
       for this.
 
+      <h3 id="standard-library">Standard library</h3>
+
+      The well-tested modules that ship with a language or runtime, or are
+      kept alongside it. Deno's standard library lives at
+      [jsr.io/@std](https://jsr.io/@std): `@std/collections` for lists and
+      maps, `@std/assert` and `@std/expect` for tests, `@std/path` for file
+      paths, and more. Using it instead of writing your own helper means
+      less code to test. See
+      [Libraries over hand-rolled code](/techniques/instructing-agents/standard-libraries/).
+
       <h3 id="discriminated-union">Discriminated union</h3>
 
       A TypeScript type that is one of several shapes, told apart by a

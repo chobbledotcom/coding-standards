@@ -5,8 +5,8 @@ guide-category: static-checks
 order: 3
 meta_description: >-
   How the tickets repository runs jscpd at a 0% duplication threshold:
-  structural clone detection, per-tree token limits, a similarity gate for
-  renamed copies, a TLA+ adapter, and the rule that a flagged pair is one
+  per-tree token limits, the ignoreIdentifiers, ignoreLiterals and
+  ignoreAnnotations flags, a similarity gate for renamed copies, a TLA+ adapter, and the rule that a flagged pair is one
   merge.
 blocks:
   - type: guide-header
@@ -40,10 +40,33 @@ blocks:
 
       A 0% threshold sounds absolute, but what decides how hard jscpd looks
       is `minTokens`: the shortest run of tokens that counts as a clone. The
-      tickets scans set it low, and they set
-      `ignoreIdentifiers` and `ignoreLiterals`, so two blocks with the same
-      *shape* match even when every name and value differs. That catches
-      the "paste and rename" clone, which is exactly what an agent produces.
+      tickets scans set it low: 19 tokens for production code.
+
+      ## The `ignore` flags: seeing through renames
+
+      jscpd 5 has three options that change *what* it compares.
+      [#2866](https://github.com/chobbledotcom/tickets/pull/2866) turned
+      them on in the four strict scans:
+
+      - `ignoreIdentifiers` treats every variable and function name as the
+        same token, so `total` and `sum` match.
+      - `ignoreLiterals` does the same for strings and numbers, so `"admin"`
+        and `"owner"` match.
+      - `ignoreAnnotations` does the same for type annotations.
+
+      With all three on, jscpd finds blocks that have the same *shape* even
+      when every name and value is different. That is the "paste and
+      rename" copy an agent makes. jscpd then sorts each match it finds
+      into a **kind**: an `exact` clone has identical raw tokens, and a
+      `renamed` clone differs only in names, values or types.
+
+      The strict scans add `"kind": ["exact"]`, so they still fail only on
+      code that is token-for-token the same. The renamed matches go to the
+      renamed-clone gate, described below. The flags still
+      catch more, because jscpd splits a long renamed match at the tokens
+      that differ. If a renamed copy leaves an identical stretch of
+      `minTokens` or more, the strict gate reports that stretch and asks
+      for the merge.
 
       ```json
       {
@@ -57,6 +80,11 @@ blocks:
         "path": ["src", "e2e-payments", "scripts"]
       }
       ```
+
+      The four configs repeat this block by hand, so a small test,
+      [`test/scripts/jscpd/config.test.ts`](https://github.com/chobbledotcom/tickets/blob/main/test/scripts/jscpd/config.test.ts),
+      fails when one of them drifts. A check on a check sounds excessive,
+      but it costs ten lines and stops one config quietly losing a flag.
 
       ## Eight scans, each tuned to its tree
 
@@ -84,10 +112,11 @@ blocks:
 
       ## The renamed-clone gate
 
-      The structural scans ignore identifiers, which makes them blind in
-      one direction: they need an exact shape match. The renamed scan runs
-      jscpd's `--similarity 0.99` gate to find copies that are almost the
-      same shape. Existing matches live in [`.jscpd.renamed-baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.renamed-baseline.json) as
+      The strict scans report only `exact` clones, so a function that was
+      copied and renamed in full slips past them. The renamed scan runs
+      jscpd's `--similarity 0.99` gate, which compares functions by the
+      shape of their syntax tree with names and values left out. A renamed
+      copy scores 1.0. Existing matches live in [`.jscpd.renamed-baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.renamed-baseline.json) as
       fingerprints, and `--fail-on-new-clones` fails on any new one. This
       replaced two hand-rolled scanners
       ([#2380](https://github.com/chobbledotcom/tickets/pull/2380)), which

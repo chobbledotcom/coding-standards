@@ -110,6 +110,8 @@ blocks:
       and time zones, `Intl` for formatting. When the house calling
       convention differs from a library's, write a thin adapter, and
       document the reason when hand-rolling is unavoidable.
+      [Libraries over hand-rolled code](/techniques/instructing-agents/standard-libraries/)
+      shows how the tickets repository moved its own helpers onto these.
 
   - type: callout
     variant: success
