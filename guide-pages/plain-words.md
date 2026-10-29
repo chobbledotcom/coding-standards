@@ -10,6 +10,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Simplified Technical English](/glossary/#ste) is a controlled writing standard
+      from the aerospace industry. "Copy" is the text a user reads in an app:
+      buttons, errors, hints. A **message catalog** keeps all of that text in
+      one file per language, so the code refers to it by key. See
+      [what i18n means](https://developer.mozilla.org/en-US/docs/Glossary/Internationalization)
+      on MDN.
   - type: markdown
     content: |
       ## Why writing rules belong in a coding standard
@@ -69,10 +80,10 @@ blocks:
 
       | Task | What it reads | What it checks |
       | --- | --- | --- |
-      | `check:ste` | Every Markdown file | Mechanical STE rules, against per-document baselines that only fall |
-      | `check:comment-ste` | Every comment in `src/` | Contractions, banned modals, present perfect, semicolons, sentences over 25 words |
-      | `check:copy` | The locale catalog | The mechanical simple-language rules |
-      | `check:e2e-labels` | The nightly payment e2e | Every label it clicks is real catalog copy |
+      | [`check:ste`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-ste.ts) | Every Markdown file | Mechanical STE rules, against per-document baselines that only fall |
+      | [`check:comment-ste`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-comments-ste.ts) | Every comment in `src/` | Contractions, banned modals, present perfect, semicolons, sentences over 25 words |
+      | [`check:copy`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-copy.ts) | The locale catalog | The mechanical simple-language rules |
+      | [`check:e2e-labels`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-e2e-labels.ts) | The nightly payment e2e | Every label it clicks is real catalog copy |
 
       [`scripts/check-ste/rules.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-ste/rules.ts)
       and
@@ -93,7 +104,7 @@ blocks:
       > column heading calls it. Copy the word a person reads in
       > `src/locales/en/*.json`, never the identifier beside it in `src/`.
 
-      So a Cucumber story says "the Concert has earned 45.00", not
+      So a [Cucumber](https://cucumber.io/docs/) story says "the Concert has earned 45.00", not
       "`listing.income_total` equals 4500". The words in the specs, the
       words in the docs and the words on screen are the same words, and
       `check:e2e-labels` fails the build when the nightly tests would click

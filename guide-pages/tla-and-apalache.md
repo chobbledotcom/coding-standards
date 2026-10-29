@@ -11,6 +11,16 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [TLA+](/glossary/#tla) is a language for describing how a system changes over
+      time. [Apalache](/glossary/#apalache) checks a TLA+ description against a rule.
+      Start with Hillel Wayne's [Learn TLA+](https://learntla.com/), then the
+      [Apalache manual](https://apalache-mc.org/docs/). The key idea on this
+      page is the [inductive invariant](/glossary/#induction).
   - type: markdown
     content: |
       ## Why tests are not enough here
@@ -36,25 +46,25 @@ blocks:
 
       | Model | What it proves |
       | --- | --- |
-      | `JointState.tla` | The refund money edges: only a money edge can arm a send, conclusive "not sent" evidence never re-arms one, a keyless request never replays automatically, and a refund row is deleted only once the refund is complete and recorded. |
-      | `SumupRecovery.tla` | Records that might hold unaccounted money cannot be pruned, always keep a check path, and paid or terminal evidence never moves backwards. |
-      | `PaymentReview.tla` | Each review state keeps its reason, acknowledgement preserves the case, only matching evidence retires it, and review events never move money. |
-      | `SquareLinkEnd.tla` | Cancel handles are kept while a link can still take payment, and inconclusive replies keep their retry work. |
-      | `TwoWorkers.tla` | A worker that fell behind can never release or overwrite the claim of the worker that replaced it, and lease expiry never cancels a request already in flight. |
-      | `BookingReplay.tla` | One payment session delivered more than once: once the durable ledger records the booking as honoured, no delivery books again and none requests a refund, whatever happened to the temporary row. |
-      | `VatLedger.tla` | Every assess, reassess and refund attempt keeps its VAT basis, setting, revision and arithmetic correct, and none calls a payment provider. |
+      | [`JointState.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/JointState.tla) | The refund money edges: only a money edge can arm a send, conclusive "not sent" evidence never re-arms one, a keyless request never replays automatically, and a refund row is deleted only once the refund is complete and recorded. |
+      | [`SumupRecovery.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/SumupRecovery.tla) | Records that might hold unaccounted money cannot be pruned, always keep a check path, and paid or terminal evidence never moves backwards. |
+      | [`PaymentReview.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/PaymentReview.tla) | Each review state keeps its reason, acknowledgement preserves the case, only matching evidence retires it, and review events never move money. |
+      | [`SquareLinkEnd.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/SquareLinkEnd.tla) | Cancel handles are kept while a link can still take payment, and inconclusive replies keep their retry work. |
+      | [`TwoWorkers.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/TwoWorkers.tla) | A worker that fell behind can never release or overwrite the claim of the worker that replaced it, and lease expiry never cancels a request already in flight. |
+      | [`BookingReplay.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/BookingReplay.tla) | One payment session delivered more than once: once the durable ledger records the booking as honoured, no delivery books again and none requests a refund, whatever happened to the temporary row. |
+      | [`VatLedger.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/VatLedger.tla) | Every assess, reassess and refund attempt keeps its VAT basis, setting, revision and arithmetic correct, and none calls a payment provider. |
 
       ## No hand-copied tables
 
       The important design choice: the model never contains a hand-written
-      copy of the move tables. `deno task verify:models` *executes the
+      copy of the move tables. [`deno task verify:models`](https://github.com/chobbledotcom/tickets/blob/main/scripts/verify-models.ts) *executes the
       production transitions*, collects what they actually do, and writes
       that out as a TLA+ data module for each model
       ([`scripts/verify-models/`](https://github.com/chobbledotcom/tickets/tree/main/scripts/verify-models)).
       The `.tla` file holds only the rules.
 
       So the proof is about the code that ships, not about someone's
-      memory of it. Change a transition and the next `verify:models` run
+      memory of it. Change a transition and the next [`verify:models`](https://github.com/chobbledotcom/tickets/blob/main/scripts/verify-models.ts) run
       checks the new behaviour.
 
   - type: split-code
@@ -62,7 +72,7 @@ blocks:
     content: |
       ## The safety property, in its own words
 
-      The SumUp model states the money rule directly. A row in a risky
+      The [SumUp](https://developer.sumup.com/) model states the money rule directly. A row in a risky
       state must be retained, and must still have an enabled check.
 
       Pruning in the model is deliberately naive: it uses only age and the
@@ -137,7 +147,7 @@ blocks:
       }
       ```
 
-      `corruptOneEdge` takes one real money edge and flips the fact that it
+      [`corruptOneEdge`](https://github.com/chobbledotcom/tickets/blob/main/scripts/verify-models/counterexample.ts#L12) takes one real money edge and flips the fact that it
       keeps its refund request. `BookingReplay` gets the same treatment for
       both failure modes it rules out: a duplicate booking, and a refund
       after the temporary row was deleted. This is mutation testing for
@@ -147,18 +157,18 @@ blocks:
 
       - **Readable rules.** "Give each fact named record fields. Use short
         rule names that describe the business condition. Prefer explicit
-        conditions to dense Boolean formulas." `RiskyMoneyKeepsQueuedWork`
+        conditions to dense Boolean formulas." [`RiskyMoneyKeepsQueuedWork`](https://github.com/chobbledotcom/tickets/blob/main/verification/SumupRecovery.tla#L82)
         is a sentence an operator could read.
       - **Shared helpers.** Common rules live in
         [`ModelRules.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/ModelRules.tla),
         for example `ChecksStillPass`: "A later success cannot erase an
         earlier failure."
-      - **Duplication checked.** `deno task cpd` includes a TLA+ adapter that
-        runs jscpd over every model.
+      - **Duplication checked.** [`deno task cpd`](https://github.com/chobbledotcom/tickets/blob/main/scripts/cpd.ts) includes a TLA+ adapter that
+        runs [jscpd](https://github.com/kucherenko/jscpd#readme) over every model.
       - **Types beside declarations.** Apalache type notes sit next to each
         variable, and each fact's schema is declared once in its generator,
-        from which both the TypeScript type and the TLA+ type note derive.
-      - **Pinned tools.** Apalache and its Java runtime come from devenv,
+        from which both the [TypeScript](https://www.typescriptlang.org/docs/) type and the TLA+ type note derive.
+      - **Pinned tools.** Apalache and its Java runtime come from [devenv](https://devenv.sh/getting-started/),
         so the model check runs the same in precommit and CI.
 
       ## Say what the proof does not prove

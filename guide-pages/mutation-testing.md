@@ -11,6 +11,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Mutation testing](/glossary/#mutation-testing) changes your code on purpose and
+      checks that a test fails. The
+      [Stryker introduction](https://stryker-mutator.io/docs/) explains the
+      words *mutant*, *killed* and *survived* with pictures. Both repositories
+      use their own runners, built on the operator tables from
+      [Mutasaurus](https://github.com/christoshrousis/mutasaurus).
   - type: markdown
     content: |
       ## Tests for your tests
@@ -38,13 +49,13 @@ blocks:
 
       > Survivors on a file you touch are yours to fix, even on lines you did
       > not change. Write the assertion that kills the mutant, or record it
-      > in `scripts/mutation/equivalent-mutants/` with a proof that no input
+      > in [`scripts/mutation/equivalent-mutants/`](https://github.com/chobbledotcom/tickets/tree/main/scripts/mutation/equivalent-mutants) with a proof that no input
       > can distinguish it.
 
-      `deno task precommit:mutation` is the branch gate. It mutates every
+      [`deno task precommit:mutation`](https://github.com/chobbledotcom/tickets/blob/main/scripts/precommit-mutation.ts) is the branch gate. It mutates every
       `src/` file the branch changed, against `origin/main`, and demands a
       100% kill rate. It runs the mirror-located direct tests first, then
-      the changed integration tests and Cucumber specs only for whatever
+      the changed integration tests and [Cucumber](https://cucumber.io/docs/) specs only for whatever
       survived. Because it only covers changed files, its cost grows with
       the size of the change, not the size of the codebase.
 
@@ -61,8 +72,8 @@ blocks:
       every mutant through two cheaper gates first, from
       [docs/mutation-testing.md](https://github.com/chobbledotcom/tickets/blob/main/docs/mutation-testing.md):
 
-      1. **Lint.** A per-file Biome run. A mutant that turns `===` into `==`
-         breaks `noDoubleEquals`, so it could never ship. Killed.
+      1. **Lint.** A per-file [Biome](https://biomejs.dev/guides/getting-started/) run. A mutant that turns `===` into `==`
+         breaks [`noDoubleEquals`](https://biomejs.dev/linter/rules/no-double-equals/), so it could never ship. Killed.
       2. **Type-check.** `deno check` on the mutant. A mutant that turns
          `"a" + "b"` into `"a" * "b"` is a type error. Killed.
 
@@ -95,7 +106,7 @@ blocks:
       - Several agents share the machine. A mutant must never be visible in
         the live checkout, where another process could commit it.
 
-      `deno task mutation --list`, `--kill` and `--clean` manage runs, and
+      [`deno task mutation --list`](https://github.com/chobbledotcom/tickets/blob/main/scripts/mutation.ts), `--kill` and `--clean` manage runs, and
       every run cleans up after earlier runs that are no longer going.
 
       ## Equivalent mutants, with an expiry date
@@ -116,7 +127,7 @@ blocks:
       and the run fails until someone re-checks the proof or writes the
       test. A proof about old code cannot hide a real survivor in new code.
 
-      `deno task mutation:audit-equivalents --tests` goes further: it tries
+      [`deno task mutation:audit-equivalents --tests`](https://github.com/chobbledotcom/tickets/blob/main/scripts/audit-equivalent-mutants.ts) goes further: it tries
       to kill every recorded entry with the current tests, and drops any
       entry a test kills, because a killed mutant was never equivalent.
 
@@ -144,10 +155,10 @@ blocks:
     content: |
       ## In the chobble-template
 
-      The template has its own runner (`bun run mutation`), built from the
+      The template has its own runner ([`bun run mutation`](https://github.com/chobbledotcom/chobble-template/blob/main/scripts/mutation.js)), built from the
       same Mutasaurus operator tables, and a plain-text list of
       confirmed-equivalent survivors in
-      `scripts/mutation/equivalent-mutants.txt` so that CI can gate on new
+      [`scripts/mutation/equivalent-mutants.txt`](https://github.com/chobbledotcom/chobble-template/blob/main/scripts/mutation/equivalent-mutants.txt) so that CI can gate on new
       gaps only. Both repositories also have a manual GitHub workflow that
       mutation-tests a chosen module on demand.
 ---

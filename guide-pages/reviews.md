@@ -10,6 +10,16 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      A *review thread* is a comment on a specific line of a pull request
+      ([GitHub docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews)).
+      On the tickets repository, every push is reviewed automatically by
+      [CodeRabbit](https://www.coderabbit.ai/), an AI review service, and the
+      findings are then handled by agents and a person.
   - type: markdown
     content: |
       ## Reviews with agents on both sides

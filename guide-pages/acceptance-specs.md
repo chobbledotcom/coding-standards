@@ -11,6 +11,18 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Cucumber](/glossary/#cucumber) runs plain-English test scenarios written in
+      [Gherkin](https://cucumber.io/docs/gherkin/reference/). Each `Given`,
+      `When` and `Then` line is matched to a *step definition* in [TypeScript](https://www.typescriptlang.org/docs/).
+      The [Cucumber 10-minute tutorial](https://cucumber.io/docs/guides/10-minute-tutorial/)
+      is the best way in. The tickets repository runs the
+      [official Cucumber JavaScript API](https://github.com/cucumber/cucumber-js)
+      under [Deno](https://docs.deno.com/runtime/).
   - type: markdown
     content: |
       ## Why stories at all
@@ -34,7 +46,7 @@ blocks:
       1. **Pure unit and property tests.** Data in, data out. No database,
          network, filesystem, DOM, subprocess or real clock.
       2. **Direct technical contract tests.** The smallest real boundary:
-         SQLite, HTTP, a provider transport, WebCrypto, the build output.
+         [SQLite](https://www.sqlite.org/about.html), HTTP, a provider transport, WebCrypto, the build output.
          These own SQL constraints, migrations, transactions, protocols,
          query budgets and concurrency.
       3. **Cucumber acceptance specs.** One user story or business rule per
@@ -49,7 +61,7 @@ blocks:
     content: |
       ## What one looks like
 
-      This story describes a real failure mode: SumUp took the money, the
+      This story describes a real failure mode: [SumUp](https://developer.sumup.com/) took the money, the
       callback never arrived, and the customer left. It reads as a business
       rule. The step code behind "the payment is still booked exactly once"
       checks the exact stored rows.
@@ -107,7 +119,7 @@ blocks:
 
       ## Strict tags, checked
 
-      `deno task specs:check` parses every Feature and validates the tags
+      [`deno task specs:check`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-specs.ts) parses every Feature and validates the tags
       against a registry: exactly one globally unique `@story:` per
       Feature, one `@rule:` per Rule, one `@case:` per Scenario (or a
       `case_id` column for outlines), and known owner, risk, actor and

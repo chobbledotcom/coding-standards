@@ -11,6 +11,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Nix and devenv](/glossary/#nix) build a development environment where every tool
+      is pinned to an exact version. Start with
+      [devenv's getting started guide](https://devenv.sh/getting-started/).
+      A [lockfile](/glossary/#lockfile) does the same job for code dependencies. The
+      production runtime is [Bunny Edge Scripting](/glossary/#bunny), which is based on
+      [Deno](https://docs.deno.com/runtime/).
   - type: markdown
     content: |
       ## Why pin everything
@@ -24,8 +35,8 @@ blocks:
       ## devenv, on Nix
 
       The developer environment is [devenv](https://devenv.sh/)
-      (`devenv.nix`), built on pinned `nixpkgs` commits in `devenv.yaml`.
-      It provides Deno, Biome, Chromium for browser tests, Apalache and its
+      ([`devenv.nix`](https://github.com/chobbledotcom/tickets/blob/main/devenv.nix)), built on pinned `nixpkgs` commits in [`devenv.yaml`](https://github.com/chobbledotcom/tickets/blob/main/devenv.yaml).
+      It provides Deno, [Biome](https://biomejs.dev/guides/getting-started/), Chromium for browser tests, [Apalache](https://apalache-mc.org/docs/) and its
       Java runtime for the model checks, and the other tools. One command
       runs anything inside it:
 
@@ -73,9 +84,9 @@ blocks:
       Tools that come from outside Nix are downloaded once into `.bin/` and
       pinned:
 
-      - **jscpd** is fetched as the static musl build and checked against a
-        pinned SHA-256, because the glibc build cannot start on NixOS.
-      - **stripe-mock** is pinned to an exact version (`v0.188.0`). The test
+      - **[jscpd](https://github.com/kucherenko/jscpd#readme)** is fetched as the static musl build and checked against a
+        pinned SHA-256, because the glibc build cannot start on [NixOS](https://nixos.org/).
+      - **[stripe-mock](https://github.com/stripe/stripe-mock)** is pinned to an exact version (`v0.188.0`). The test
         harness starts one per run on a free port, so parallel suites never
         fight over the default port.
       - The **devenv CLI** in CI is pinned to a source revision rather than
@@ -94,5 +105,5 @@ blocks:
 
       This site is built the same way: the
       [chobble-client](https://git.chobble.com/chobble/chobble-client)
-      template it uses ships its own `devenv.nix` with a pinned Bun.
+      template it uses ships its own `devenv.nix` with a pinned [Bun](https://bun.sh/docs).
 ---

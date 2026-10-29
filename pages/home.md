@@ -130,10 +130,10 @@ blocks:
 
       Almost every example on this site comes from
       [chobbledotcom/tickets](https://github.com/chobbledotcom/tickets), an
-      open-source ticket booking system that runs on Bunny Edge Scripting and
-      takes real payments through Stripe, Square and SumUp. A few come from
+      open-source ticket booking system that runs on [Bunny Edge Scripting](https://bunny.net/edge-scripting/) and
+      takes real payments through [Stripe](https://docs.stripe.com/testing), Square and [SumUp](https://developer.sumup.com/). A few come from
       [chobbledotcom/chobble-template](https://github.com/chobbledotcom/chobble-template),
-      the Eleventy template this site is built on. Both repositories are
+      the [Eleventy](https://www.11ty.dev/docs/) template this site is built on. Both repositories are
       public, so every file named here is a link you can follow and read in
       full.
 
@@ -143,7 +143,9 @@ blocks:
 
       Start with the philosophy page. It explains why each family of checks
       exists, and which ones give the most value for the least effort if you
-      want to adopt only a few.
+      want to adopt only a few. Every technique page opens with a short
+      "New to this?" note, and the [glossary](/glossary/) explains each tool
+      and idea in plain words, with links to its documentation.
     button:
       text: Read the approach
       href: /approach/

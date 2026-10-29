@@ -10,12 +10,23 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      Coding agents such as [Claude Code](https://www.anthropic.com/claude-code)
+      read instruction files from your repository before they start work.
+      [agents.md](https://agents.md/) describes the shared `AGENTS.md`
+      convention. You can read the [whole tickets AGENTS.md](https://github.com/chobbledotcom/tickets/blob/main/AGENTS.md)
+      in about fifteen minutes, and it is worth doing before you read the rest
+      of this site. See also: [LLM coding agent](/glossary/#llm-agent).
   - type: markdown
     content: |
       ## One file, linked outwards
 
       Every coding tool has its own idea of where instructions live:
-      `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, a skills folder. In my
+      [`CLAUDE.md`](https://github.com/chobbledotcom/tickets/blob/main/CLAUDE.md), `AGENTS.md`, `.cursorrules`, a skills folder. In my
       repositories there is one file,
       [AGENTS.md](https://github.com/chobbledotcom/tickets/blob/main/AGENTS.md),
       and the others point at it. The whole of the tickets `CLAUDE.md` is
@@ -99,16 +110,16 @@ blocks:
 
       | Rule in AGENTS.md | What enforces it |
       | --- | --- |
-      | Zero code duplication | `deno task cpd` |
-      | Keep files under ~400 lines | `deno task check:file-lengths` |
-      | Never add a coverage exclusion | `deno task check:coverage-exclusions` |
-      | No alias exports | `deno task check:alias-exports` |
-      | Imports name a module one way | `deno task check:imports` |
-      | Comments are short | `deno task check:comments` |
-      | Simplified Technical English | `deno task check:ste`, `check:comment-ste` |
-      | Simple language for users | `deno task check:copy` |
-      | No empty catch | `deno task check:empty-catch` |
-      | `toBeDefined()` is blocked | `deno task check:presence-assertions` |
+      | Zero code duplication | [`deno task cpd`](https://github.com/chobbledotcom/tickets/blob/main/scripts/cpd.ts) |
+      | Keep files under ~400 lines | [`deno task check:file-lengths`](https://github.com/chobbledotcom/tickets/blob/main/scripts/counts-check.ts) |
+      | Never add a coverage exclusion | [`deno task check:coverage-exclusions`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-coverage-exclusions.ts) |
+      | No alias exports | [`deno task check:alias-exports`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-alias-exports.ts) |
+      | Imports name a module one way | [`deno task check:imports`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-imports.ts) |
+      | Comments are short | [`deno task check:comments`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-comments.ts) |
+      | Simplified Technical English | [`deno task check:ste`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-ste.ts), [`check:comment-ste`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-comments-ste.ts) |
+      | Simple language for users | [`deno task check:copy`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-copy.ts) |
+      | No empty catch | [`deno task check:empty-catch`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-empty-catch.ts) |
+      | `toBeDefined()` is blocked | [`deno task check:presence-assertions`](https://github.com/chobbledotcom/tickets/blob/main/scripts/counts-check.ts) |
 
       A rule with no checker is a rule that depends on the agent's mood.
       Over time, the rules that keep being broken get a checker.

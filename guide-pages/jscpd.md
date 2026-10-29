@@ -11,6 +11,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [jscpd](/glossary/#jscpd) is a copy-paste detector. It splits code into
+      *tokens* (names, keywords, symbols) and looks for long runs of tokens that
+      appear more than once. Read the
+      [jscpd README](https://github.com/kucherenko/jscpd#readme)
+      for its options. The principle behind it is often called
+      [DRY: Don't Repeat Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
   - type: markdown
     content: |
       ## The agent's favourite shortcut
@@ -51,21 +62,21 @@ blocks:
 
       One threshold does not fit a whole repository. Test setup repeats more
       than production code, and CSS repeats short declaration runs by
-      design. So `deno task cpd` runs several scans, each with its own
+      design. So [`deno task cpd`](https://github.com/chobbledotcom/tickets/blob/main/scripts/cpd.ts) runs several scans, each with its own
       config, and
       [docs/test-duplication.md](https://github.com/chobbledotcom/tickets/blob/main/docs/test-duplication.md)
       records what each step down would cost.
 
       | Config | Scans | minTokens |
       | --- | --- | --- |
-      | `.jscpd.json` | `src`, `e2e-payments`, `scripts` | 19 |
-      | `.jscpd.specs.json` | `src` + Cucumber support | 18, with a baseline |
-      | `.jscpd.support.json` | Cucumber support alone | 15 |
-      | `.jscpd.helpers.json` | `src` + `test/test-utils` | 40 |
-      | `.jscpd.test.json` | `test` | 48 |
-      | `.jscpd.css.json` | the main stylesheets | 50 |
-      | `.jscpd.renamed.json` | `src`, `e2e-payments`, `scripts` | 20, 99% similarity, with a baseline |
-      | `cpd:tla` | every TLA+ model | own lexer |
+      | [`.jscpd.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.json) | `src`, `e2e-payments`, `scripts` | 19 |
+      | [`.jscpd.specs.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.specs.json) | `src` + Cucumber support | 18, with a baseline |
+      | [`.jscpd.support.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.support.json) | Cucumber support alone | 15 |
+      | [`.jscpd.helpers.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.helpers.json) | `src` + `test/test-utils` | 40 |
+      | [`.jscpd.test.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.test.json) | `test` | 48 |
+      | [`.jscpd.css.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.css.json) | the main stylesheets | 50 |
+      | [`.jscpd.renamed.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.renamed.json) | `src`, `e2e-payments`, `scripts` | 20, 99% similarity, with a baseline |
+      | [`cpd:tla`](https://github.com/chobbledotcom/tickets/blob/main/scripts/tla-cpd.ts) | every TLA+ model | own lexer |
 
       Scanning `src` *together with* the test helpers matters. It catches a
       test helper that re-implements a production function instead of
@@ -76,7 +87,7 @@ blocks:
       The structural scans ignore identifiers, which makes them blind in
       one direction: they need an exact shape match. The renamed scan runs
       jscpd's `--similarity 0.99` gate to find copies that are almost the
-      same shape. Existing matches live in `.jscpd.renamed-baseline.json` as
+      same shape. Existing matches live in [`.jscpd.renamed-baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.renamed-baseline.json) as
       fingerprints, and `--fail-on-new-clones` fails on any new one. This
       replaced two hand-rolled scanners
       ([#2380](https://github.com/chobbledotcom/tickets/pull/2380)), which
@@ -90,7 +101,7 @@ blocks:
       [`scripts/tla-cpd.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/tla-cpd.ts)
       lexes each `.tla` file into a form jscpd can read, keeping
       identifiers, literals and prime marks, and dropping comments. Shared
-      rules move into `verification/ModelRules.tla`.
+      rules move into [`verification/ModelRules.tla`](https://github.com/chobbledotcom/tickets/blob/main/verification/ModelRules.tla).
 
       ## A flagged pair is one merge
 
@@ -152,11 +163,11 @@ blocks:
         The tickets repository downloads the static musl build and pins its
         SHA-256
         ([`scripts/jscpd/install.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/jscpd/install.ts)),
-        because the glibc build cannot start on NixOS.
+        because the glibc build cannot start on [NixOS](https://nixos.org/).
       - **Currying is the usual fix.** Two functions that differ in a value
         become one factory that takes the value and returns the function.
         That is why the codebase is curried throughout.
-      - **The chobble-template ratchets the threshold.** Its `cpd:ratchet`
+      - **The chobble-template ratchets the threshold.** Its [`cpd:ratchet`](https://github.com/chobbledotcom/chobble-template/blob/main/scripts/cpd-ratchet.js)
         task fails when the code would pass at one token lower, so the
         threshold only tightens. See [Ratchets](/techniques/static-checks/ratchets/).
 ---

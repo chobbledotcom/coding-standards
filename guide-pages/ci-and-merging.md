@@ -10,6 +10,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Continuous integration](/glossary/#ci) runs your checks on a server for every
+      push. The repositories use [GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions).
+      *Required status checks* are the CI jobs GitHub insists pass before a
+      merge ([GitHub docs](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-status-checks-before-merging)).
+      [Stacked pull requests](/glossary/#stacked-prs) are explained at
+      [stacking.dev](https://www.stacking.dev/).
   - type: markdown
     content: |
       ## CI runs the same commands
@@ -17,7 +28,7 @@ blocks:
       The `Test` workflow in tickets has four jobs: `checks`, `test`,
       `browser-contracts` and `specs`. The `checks` job is the precommit
       list, one named step per gate, each running the same `deno task` as
-      local precommit inside the same devenv profile. A failure in CI can
+      local precommit inside the same [devenv](https://devenv.sh/getting-started/) profile. A failure in CI can
       always be reproduced locally with the command on the failing step.
 
       There is no separate "CI version" of a check. When CI and local
@@ -37,14 +48,14 @@ blocks:
       ["checks", "specs", "test"]
       ```
 
-      `deno task check:required-checks` reads the live ruleset with `gh` and
+      [`deno task check:required-checks`](https://github.com/chobbledotcom/tickets/blob/main/scripts/required-checks/check.ts) reads the live ruleset with `gh` and
       fails when it does not match the manifest. Changing the gate now
       shows up in a diff.
 
       ## Trial-merge before "ready"
 
       A pull request can pass CI on its own branch and still break `main`
-      when merged, because `main` moved. `deno task check:merged-tree`
+      when merged, because `main` moved. [`deno task check:merged-tree`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-merged-tree.ts)
       merges the head into the base in a throwaway worktree, runs typecheck
       and the suite on the merged tree, and removes the worktree. A pull
       request is presented as ready only when both the head CI and this
@@ -94,5 +105,5 @@ blocks:
       description must name the behaviour added or replaced, the
       production caller, the old path deleted, the line counts, the tests
       and mutation commands run, and any change to the pure list or the
-      declared machines (the `contract:diff` output goes here).
+      declared machines (the [`contract:diff`](https://github.com/chobbledotcom/tickets/blob/main/scripts/contract-drift.ts) output goes here).
 ---

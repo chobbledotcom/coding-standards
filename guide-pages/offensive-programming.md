@@ -10,6 +10,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      "Offensive programming" is the opposite of defensive programming: instead
+      of quietly coping with bad data, the code [fails fast](/glossary/#fail-fast) with a
+      clear error. Operators on this page: `??` is
+      [nullish coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing),
+      `?.` is [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining),
+      and `as` is a [type assertion](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions).
   - type: markdown
     content: |
       ## The fastest way to a green test
@@ -31,7 +42,7 @@ blocks:
       - **Let errors propagate.** No `try`/`catch` "for extra safety".
       - **Validate external data at the boundary.** "A missing expected
         field from structured external data is a hard no to default away."
-        Use a valibot schema, or check and throw.
+        Use a [valibot](https://valibot.dev/guides/introduction/) schema, or check and throw.
       - **Fallback operators are for genuinely optional values only.** "Do
         not use `??` / `||` / `?.` to make a missing value someone else's
         problem."
@@ -81,12 +92,12 @@ blocks:
 
       | Check | Where | What it finds |
       | --- | --- | --- |
-      | `check:empty-catch` | tickets | Every catch block must recover, re-raise, or comment its fallback |
-      | `check:double-casts` | tickets | `as unknown as` casts, against a per-file baseline that only falls |
-      | `or-fallbacks.test.js` | template | `\|\| []`, `\|\| {}`, `\|\| "…"` outside the data layer |
-      | `nullish-coalescing.test.js` | template | `??` used to hide missing values |
-      | `try-catch-usage.test.js` | template | `try`/`catch` outside an allow-list that only shrinks |
-      | `data-fallbacks.test.js` | template | `item.data.foo ?? default` on typed collection data |
+      | [`check:empty-catch`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-empty-catch.ts) | tickets | Every catch block must recover, re-raise, or comment its fallback |
+      | [`check:double-casts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-double-casts.ts) | tickets | `as unknown as` casts, against a per-file baseline that only falls |
+      | [`or-fallbacks.test.js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/or-fallbacks.test.js) | template | `\|\| []`, `\|\| {}`, `\|\| "…"` outside the data layer |
+      | [`nullish-coalescing.test.js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/nullish-coalescing.test.js) | template | `??` used to hide missing values |
+      | [`try-catch-usage.test.js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/try-catch-usage.test.js) | template | `try`/`catch` outside an allow-list that only shrinks |
+      | [`data-fallbacks.test.js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/data-fallbacks.test.js) | template | `item.data.foo ?? default` on typed collection data |
 
       The template's fallback check states the philosophy in its header:
 
@@ -118,7 +129,7 @@ blocks:
       > explicitly.
 
       So a state machine reader throws on a stored state word it does not
-      know (`parseMachineState` in
+      know ([`parseMachineState`](https://github.com/chobbledotcom/tickets/blob/main/src/shared/schema-atlas/machine-spec.ts#L37) in
       [`machine-spec.ts`](https://github.com/chobbledotcom/tickets/blob/main/src/shared/schema-atlas/machine-spec.ts)),
       instead of mapping it to a default. The impossible state shows up in
       the log, and a separate live scan shows it to the operator so they can

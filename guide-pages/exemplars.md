@@ -10,6 +10,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      An **exemplar** is a file in the codebase that shows a pattern done well.
+      Terms on this page: [schema validation](/glossary/#schema) with
+      [Valibot](https://valibot.dev/guides/introduction/),
+      [pure functions](/glossary/#pure-function), [currying](/glossary/#currying) and
+      [cold starts](/glossary/#bunny). The [Valibot guide](https://valibot.dev/guides/introduction/)
+      is short and a good first read.
   - type: markdown
     content: |
       ## Agents copy what they see
@@ -29,10 +40,10 @@ blocks:
 
       ## The qualities, and their exemplars
 
-      - **Schema-tized.** A valibot schema is the single source of truth
-        for a value type, and the TypeScript type, the runtime guard and the
+      - **Schema-tized.** A [valibot](https://valibot.dev/guides/introduction/) schema is the single source of truth
+        for a value type, and the [TypeScript](https://www.typescriptlang.org/docs/) type, the runtime guard and the
         options list all derive from it. Tables come from `defineTable`,
-        admin APIs from `defineCrudApi`, forms from `defineForm`. "If your
+        admin APIs from [`defineCrudApi`](https://github.com/chobbledotcom/tickets/blob/main/src/shared/rest/crud-api.ts#L74), forms from [`defineForm`](https://github.com/chobbledotcom/tickets/blob/main/src/shared/forms/definition.ts#L89). "If your
         plan contains a hand-rolled dispatcher, an ad-hoc form, bespoke CRUD
         routes, or hand-written row (de)serialization, stop: there is a
         `define*` factory for that already."

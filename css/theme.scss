@@ -136,6 +136,46 @@
     padding-top: 3rem;
   }
 
+  // The "New to this?" note belongs to the title band, so it shares its
+  // background and sits under the back link.
+  section:has(> div > .guide-navigation) + section:has(.callout) {
+    padding-block: 0 2.5rem;
+    background: var(--body-background-alt);
+
+    // Widen the narrow container to the page width so the note lines up
+    // with the title, then cap the note itself at the reading measure.
+    > .container-narrow {
+      max-width: 1200px;
+    }
+
+    .callout {
+      max-width: 46rem;
+    }
+
+    + section {
+      padding-top: 3rem;
+    }
+  }
+
+  // Links must be visible to a reader skimming for them, including links
+  // inside callouts and links on code names.
+  .prose a,
+  .callout a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .callout a {
+    font-weight: 600;
+  }
+
+  a code {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
   // The template styles every `nav` as the sticky site menu, so the guide
   // link needs that undone with matching specificity.
   &.sticky-mobile-nav nav.guide-navigation,

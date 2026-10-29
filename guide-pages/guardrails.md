@@ -10,6 +10,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      An agent working "unattended" runs commands and edits files without a
+      person approving each step. That is fast, and it means mistakes pile up
+      before anyone sees them. These rules are the ones that stop the most
+      common pile-ups. If git terms like *staging*, *base branch* or `--no-verify`
+      are new, the [Pro Git book](https://git-scm.com/book/en/v2) (free online)
+      covers them in its first three chapters.
   - type: markdown
     content: |
       Several agents often work on the tickets repository at once, on one
@@ -30,7 +41,7 @@ blocks:
       > retry loops. Leave your work as it is and wait for a human decision.
 
       The rule lists what counts as infrastructure (the test runner and
-      harness, coverage tooling, the pre-commit hook, devenv, nix, deno, CI
+      harness, coverage tooling, the pre-commit hook, [devenv](https://devenv.sh/getting-started/), nix, deno, CI
       runners, the network, the machine) and what to report: the exact
       command, the exact error, and why it looks like infrastructure. When
       an `agent-report-infra` command is on the path, the agent uses it.
@@ -108,7 +119,7 @@ blocks:
 
       The "Final check" section tells agents not to run the full precommit
       or full coverage locally. They run the tests for the files they
-      changed with `deno task test:files`, then a list of light gates
+      changed with [`deno task test:files`](https://github.com/chobbledotcom/tickets/blob/main/scripts/run-test-files.ts), then a list of light gates
       (lint, duplication, file lengths, imports, comment language,
       typecheck). When a `job-submit` queue exists, tests go through it. The
       commit message then says

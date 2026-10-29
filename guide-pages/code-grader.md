@@ -11,6 +11,16 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      This page combines two ideas: mechanical checks (scripts that apply a rule
+      exactly) and an *LLM as a judge* (asking a language model to score
+      something against written criteria). The
+      [LLM-as-a-judge overview from Hugging Face](https://huggingface.co/learn/cookbook/en/llm_judge)
+      explains the general technique and its limits.
   - type: markdown
     content: |
       ## The half the scripts cannot do
@@ -21,7 +31,7 @@ blocks:
       cannot tell which ones paper over a missing value and which guard a
       genuinely optional one.
 
-      `deno task grade:code` covers both halves for one file, a folder, or
+      [`deno task grade:code`](https://github.com/chobbledotcom/tickets/blob/main/scripts/grade-code.ts) covers both halves for one file, a folder, or
       every module under `src/`, and prints a scored report. It is advice,
       not a gate.
 
@@ -39,7 +49,7 @@ blocks:
       import { findImportIssues } from "#scripts/check-imports/rules.ts";
       ```
 
-      So a mechanical grade always agrees with what `deno task precommit`
+      So a mechanical grade always agrees with what [`deno task precommit`](https://github.com/chobbledotcom/tickets/blob/main/scripts/precommit.ts)
       would say. That is only possible because every checker keeps its
       rules in a pure `rules.ts`, separate from the IO that reads files.
 

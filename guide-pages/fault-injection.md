@@ -10,6 +10,18 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Fault injection](/glossary/#fault-injection) means breaking something on
+      purpose in a test. Here the break is an
+      [SQLite trigger](https://www.sqlite.org/lang_createtrigger.html): a small
+      rule stored in the database that runs before a write and can abort it with
+      `RAISE`. A *durable write* is one saved to the database, which survives a
+      restart. A *transaction* groups writes so they all happen or none do
+      ([SQLite docs](https://www.sqlite.org/lang_transaction.html)).
   - type: markdown
     content: |
       ## The bug in the gap
@@ -67,7 +79,7 @@ blocks:
 
       From
       [`test/test-utils/db-fault.ts`](https://github.com/chobbledotcom/tickets/blob/main/test/test-utils/db-fault.ts).
-      The same idea runs in the nightly sandbox run: a Stripe refund
+      The same idea runs in the nightly sandbox run: a [Stripe](https://docs.stripe.com/testing) refund
       succeeds at Stripe while a persistent trigger makes the local money
       write fail, and the scenario checks that the booking stays protected,
       a stale form cannot refund twice, and a refresh completes the record

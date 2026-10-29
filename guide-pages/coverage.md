@@ -11,6 +11,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Test coverage](/glossary/#coverage) measures which lines and *branches* (each
+      way through an `if`) ran during the tests. Read
+      [Deno's coverage docs](https://docs.deno.com/runtime/reference/cli/coverage/)
+      or [Bun's](https://bun.sh/docs/test/coverage) to see how to produce a
+      report, and [Martin Fowler on test coverage](https://martinfowler.com/bliki/TestCoverage.html)
+      for why a high number on its own is not enough.
   - type: markdown
     content: |
       ## Why 100% and not 90%
@@ -37,16 +48,16 @@ blocks:
       > in-process unit test.
       >
       > **Never add a coverage exclusion**: The list in
-      > `scripts/check-coverage-exclusions/exclusions.ts` only ever shrinks,
+      > [`scripts/check-coverage-exclusions/exclusions.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-coverage-exclusions/exclusions.ts) only ever shrinks,
       > and the ratchet fails on an entry a branch adds. Answer a coverage
       > gap by restructuring the code.
 
-      The gate checks lines *and* branches, per file, from the lcov report
+      The gate checks lines *and* branches, per file, from the [lcov](https://github.com/linux-test-project/lcov) report
       ([`scripts/coverage-check.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/coverage-check.ts)).
       The [chobble-template](https://github.com/chobbledotcom/chobble-template)
       does the same through Bun, with
       `coverageThreshold = { lines = 1.0, functions = 1.0 }` in
-      `bunfig.toml`.
+      [`bunfig.toml`](https://github.com/chobbledotcom/chobble-template/blob/main/bunfig.toml).
 
       ## Deterministic means no lucky runs
 
@@ -58,7 +69,7 @@ blocks:
         rule is that such a branch also gets a direct, in-process unit test.
       - **Timing.** A retry path that only runs when something is slow is
         covered by luck. Retry paths run under a virtual clock instead
-        (`withVirtualBackoff` from the test utilities), so the "every retry
+        ([`withVirtualBackoff`](https://github.com/chobbledotcom/tickets/blob/main/test/test-utils/virtual-time.ts#L11) from the test utilities), so the "every retry
         failed" branch runs on every run, instantly.
 
       ## Code shaped for the coverage merge
@@ -95,7 +106,7 @@ blocks:
       ## Coverage while you work
 
       Running the full suite with coverage on a shared machine is slow and
-      unkind to the other agents. `deno task cov:files` runs only the given
+      unkind to the other agents. [`deno task cov:files`](https://github.com/chobbledotcom/tickets/blob/main/scripts/cov-files.ts) runs only the given
       test files with the full harness, then prints the lines and branches
       that run left uncovered, optionally limited to one source file with
       `--only`. An agent can close a gap in a minute and leave the full
@@ -108,7 +119,7 @@ blocks:
     content: |
       Every coverage tool has an ignore list, and every agent finds it. In
       the template the exclusions are in `bunfig.toml` with a reason per
-      entry. In tickets they are in a TypeScript file with a check that
+      entry. In tickets they are in a [TypeScript](https://www.typescriptlang.org/docs/) file with a check that
       diffs it against `origin/main` and fails on any addition. The second
       is the one that holds.
 ---

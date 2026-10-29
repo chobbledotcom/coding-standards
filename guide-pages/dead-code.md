@@ -11,6 +11,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      [Dead code](/glossary/#dead-code) is code nothing uses. [Knip](/glossary/#knip) finds it
+      by starting from your *entry points* (the files your program starts
+      from) and following every import. Anything it never reaches is unused.
+      The [Knip getting started guide](https://knip.dev/overview/getting-started)
+      explains entry points well. The unread-fields scan uses the
+      [TypeScript compiler API](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API).
   - type: markdown
     content: |
       ## "Remove dead code — always the answer"
@@ -34,9 +45,9 @@ blocks:
       [Knip](https://knip.dev/) builds the module graph from a list of
       entry points and reports files, exports and dependencies that nothing
       reaches. The template runs it as a precommit step with a read-only
-      `knip`, and offers `knip:fix` to apply removals.
+      [`knip`](https://github.com/chobbledotcom/chobble-template/blob/main/package.json), and offers [`knip:fix`](https://github.com/chobbledotcom/chobble-template/blob/main/package.json) to apply removals.
 
-      The interesting part of the config is the entry list. An Eleventy
+      The interesting part of the config is the entry list. An [Eleventy](https://www.11ty.dev/docs/)
       site has many implicit entry points (data files, `.11tydata.js`
       files, browser bundles), and every one has to be named, or knip
       reports live code as dead:
@@ -76,7 +87,7 @@ blocks:
       which runs three checks over the import map: `src/` files that only
       tests import, individual exports that only tests use, and `src/` files
       nothing imports at all. It follows static imports, dynamic
-      `await import(...)` calls and the `#` aliases in `deno.json`.
+      `await import(...)` calls and the `#` aliases in [`deno.json`](https://github.com/chobbledotcom/tickets/blob/main/deno.json).
 
       ## Fields that nothing reads
 
@@ -102,7 +113,7 @@ blocks:
 
       ## Holding the line on unread fields
 
-      `deno task check:unread-fields` runs in precommit as a ratchet with
+      [`deno task check:unread-fields`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-unread-fields.ts) runs in precommit as a ratchet with
       two registries:
 
       - `baseline.ts` is accepted debt. "An entry does not say that the

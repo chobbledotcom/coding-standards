@@ -10,6 +10,18 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      A **behaviour contract** is a written plan of what a change must do, in
+      every situation, before anyone writes code. It borrows from
+      [state machines](/glossary/#state-machine) and from the idea of
+      [design by contract](https://en.wikipedia.org/wiki/Design_by_contract).
+      Words worth knowing first: [idempotent](/glossary/#idempotent),
+      [race condition](/glossary/#race-condition), [webhook](/glossary/#webhook) and
+      [discriminated union](/glossary/#discriminated-union).
   - type: markdown
     content: |
       ## Why a plan comes first

@@ -10,6 +10,18 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      A [ratchet](/glossary/#ratchet) is a list of known problems that may only get
+      shorter. The name comes from the
+      [mechanical ratchet](https://en.wikipedia.org/wiki/Ratchet_(device)),
+      which turns one way and locks against the other. You will see the same
+      idea called a *baseline* in many tools, for example
+      [Biome's suppressions](https://biomejs.dev/linter/#suppress-lint-rules)
+      or [Detekt baselines](https://detekt.dev/docs/introduction/baseline/).
   - type: markdown
     content: |
       ## The problem every new check has
@@ -35,10 +47,10 @@ blocks:
       | [`check-double-casts/baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-double-casts/baseline.json) | Counts of `as unknown as` per file. |
       | [`check-presence-assertions/registry.json`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-presence-assertions/registry.json) | Counts of `toBeDefined()` per test file. |
       | [`check-ste/baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-ste/baseline.json) | STE findings per Markdown document. |
-      | `check-comments/ste-baseline.json` | STE findings per source file's comments. |
-      | `unread-fields/baseline.ts` | Exported fields that nothing reads. |
-      | `.jscpd.renamed-baseline.json` | Accepted near-identical clones, by fingerprint. |
-      | `test/integration/import-cycles.test.ts` | Import rings in `src/`. Once it reached zero, the cycle report became a hard gate. |
+      | [`check-comments/ste-baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-comments/ste-baseline.json) | STE findings per source file's comments. |
+      | [`unread-fields/baseline.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/unread-fields/baseline.ts) | Exported fields that nothing reads. |
+      | [`.jscpd.renamed-baseline.json`](https://github.com/chobbledotcom/tickets/blob/main/.jscpd.renamed-baseline.json) | Accepted near-identical clones, by fingerprint. |
+      | [`test/integration/import-cycles.test.ts`](https://github.com/chobbledotcom/tickets/blob/main/test/integration/import-cycles.test.ts) | Import rings in `src/`. Once it reached zero, the cycle report became a hard gate. |
 
   - type: split-code
     subtitle: Example
@@ -92,15 +104,15 @@ blocks:
 
       The template uses the same idea with different mechanics:
 
-      - **`cpd:ratchet`** reads the current `--min-tokens` from
+      - **[`cpd:ratchet`](https://github.com/chobbledotcom/chobble-template/blob/main/scripts/cpd-ratchet.js)** reads the current `--min-tokens` from
         `package.json`, then runs jscpd at one token lower. If the codebase
         would pass at the stricter setting, the check *fails*, forcing
         someone to tighten the threshold. The duplication limit can only go
         down.
-      - **`typecheck:strict`** runs `tsc --strict` across the project. The
+      - **[`typecheck:strict`](https://github.com/chobbledotcom/chobble-template/blob/main/scripts/strict-typecheck-ratchet.js)** runs `tsc --strict` across the project. The
         total error count may not exceed a baseline, and a list of
         strict-clean files may not gain any errors.
-      - **`code-quality-exceptions.js`** holds the grandfathered findings
+      - **[`code-quality-exceptions.js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/code-quality/code-quality-exceptions.js)** holds the grandfathered findings
         of the [code-quality tests](/techniques/static-checks/code-quality-tests/),
         under a banner that leaves no room for interpretation:
 

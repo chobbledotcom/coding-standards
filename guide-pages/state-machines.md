@@ -11,6 +11,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      A [state machine](/glossary/#state-machine) lists the states a record can be in
+      and the events that move it between them. If the idea is new, read
+      [Stately's introduction](https://stately.ai/docs/state-machines-and-statecharts)
+      first. The tickets code does not use a state machine library: the machine
+      is a typed [TypeScript](https://www.typescriptlang.org/docs/) object, and the tests walk it like a
+      [graph](https://en.wikipedia.org/wiki/Graph_traversal).
   - type: markdown
     content: |
       ## The problem with lifecycles in code
@@ -40,7 +51,7 @@ blocks:
       - **A moves table**: for each node, the events that move it and where
         to. **A cell left out is a declared refusal.**
 
-      The worked example is the SumUp recovery machine. SumUp does not sign
+      The worked example is the [SumUp](https://developer.sumup.com/) recovery machine. SumUp does not sign
       its callbacks and has no redelivery, so one lost callback means a
       paid checkout looks exactly like an abandoned one. The machine
       replaces that lost notice with scheduled checks.
@@ -121,7 +132,7 @@ blocks:
       transition and not the table, a cell lands somewhere unexpected and
       the sweep fails. If someone adds an event and forgets a node, the
       missing cell is a refusal, and the sweep proves the code really
-      refuses. `registerTableChecks` also pins the size of the table (nodes,
+      refuses. [`registerTableChecks`](https://github.com/chobbledotcom/tickets/blob/main/test/test-utils/machine-spec.ts#L98) also pins the size of the table (nodes,
       events, shapes), so a quietly shrunk event list cannot pass as "every
       cell still conforms".
 
@@ -183,7 +194,7 @@ blocks:
 
       ## Contract drift in review
 
-      `deno task contract:diff` prints how this branch changed the declared
+      [`deno task contract:diff`](https://github.com/chobbledotcom/tickets/blob/main/scripts/contract-drift.ts) prints how this branch changed the declared
       machines: moves, money flags and tables, against the merge base. It
       is a report, not a gate. It goes in the pull request description, so a
       reviewer sees "this branch adds a move from `owed` to `unpaid`" in one

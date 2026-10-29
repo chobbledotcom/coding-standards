@@ -10,6 +10,17 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      An [assertion](/glossary/#assertion) is the line that checks a test's result.
+      The examples use the `expect` style from
+      [Deno's standard library](https://jsr.io/@std/expect), which matches
+      [Jest](https://jestjs.io/docs/expect). A *tautological* test checks a
+      value it set itself, so it can never fail. A *regression test* reproduces
+      a bug that was fixed, so the bug cannot come back unnoticed.
   - type: markdown
     content: |
       ## The soft test
@@ -43,7 +54,7 @@ blocks:
 
       ## The weak-assertion gate
 
-      `deno task check:test-quality` scans every test file that the branch
+      [`deno task check:test-quality`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-test-quality.ts) scans every test file that the branch
       touches, compared with the merge base on `origin/main`, for patterns
       like these
       ([`scripts/test-quality-audit-model.ts`](https://github.com/chobbledotcom/tickets/blob/main/scripts/test-quality-audit-model.ts)):

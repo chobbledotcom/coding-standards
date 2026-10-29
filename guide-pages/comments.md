@@ -10,6 +10,16 @@ meta_description: >-
 blocks:
   - type: guide-header
   - type: guide-navigation
+  - type: callout
+    variant: info
+    icon: "mdi:school-outline"
+    name: New to this?
+    content: |
+      This page is about code comments: the `//` and `/** */` notes in source
+      files. A *docstring* is a comment directly above a function or type that
+      describes it, often written in [JSDoc](https://jsdoc.app/) style. The
+      [Simplified Technical English](/glossary/#ste) rules used for comments are on
+      the [Plain words](/techniques/instructing-agents/plain-words/) page.
   - type: markdown
     content: |
       ## Agents narrate
@@ -50,7 +60,7 @@ blocks:
 
       ## The cap
 
-      `deno task check:comments` holds every comment in `src/` to at most
+      [`deno task check:comments`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-comments.ts) holds every comment in `src/` to at most
       **12 lines**, and every comment line to at most **100 columns**. The
       numbers live in one place:
 
@@ -62,7 +72,7 @@ blocks:
       measured first. The document prices every next step: how many
       comments in how many files would need rewriting to reach 8, 6 or 4.
 
-      A second check, `check:comment-ste`, holds comment prose to the
+      A second check, [`check:comment-ste`](https://github.com/chobbledotcom/tickets/blob/main/scripts/check-comments-ste.ts), holds comment prose to the
       mechanical [Simplified Technical English](/techniques/instructing-agents/plain-words/)
       rules.
 
