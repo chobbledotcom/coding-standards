@@ -205,3 +205,20 @@
     background: var(--color-tint);
   }
 }
+
+// The footer is dark, so the page's green link colour is too dim on it.
+.design-system footer {
+  // `:not(.btn)` matches the specificity of the template's link rule.
+  a:not(.btn) {
+    color: #9fdcb9;
+  }
+
+  a:not(.btn):hover {
+    color: #fff;
+  }
+
+  p {
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+}

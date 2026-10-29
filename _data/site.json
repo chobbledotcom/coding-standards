@@ -9,7 +9,8 @@
 		"TikTok": null,
 		"Google": null,
 		"WhatsApp": null,
-		"RSS": null
+		"RSS": null,
+		"GitHub": "https://github.com/chobbledotcom/coding-standards"
 	},
 	"sticky_mobile_nav": true,
 	"horizontal_nav": true,

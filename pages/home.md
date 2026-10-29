@@ -137,6 +137,16 @@ blocks:
       public, so every file named here is a link you can follow and read in
       full.
 
+  - type: callout
+    variant: info
+    icon: "mdi:account-hard-hat-outline"
+    name: Available for hire
+    content: |
+      I'm Stefan, and I build software this way for clients. If you want
+      these checks in your own codebase, or a developer who works like
+      this, see [software development at Chobble](https://www.chobble.com/services/software-developer/)
+      or [get in touch](https://www.chobble.com/contact/).
+
   - type: cta
     content: |
       ## New to all this?

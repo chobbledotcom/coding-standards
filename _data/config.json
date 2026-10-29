@@ -37,5 +37,5 @@
   "search_collections": null,
   "ntfy_channel": null,
   "linkify_urls": false,
-  "homepage_footer_markdown": "Written by [Chobble](https://www.chobble.com). Examples from [chobbledotcom/tickets](https://github.com/chobbledotcom/tickets) and [chobbledotcom/chobble-template](https://github.com/chobbledotcom/chobble-template)."
+  "homepage_footer_markdown": null
 }
