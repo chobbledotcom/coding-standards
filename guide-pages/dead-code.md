@@ -2,7 +2,7 @@
 name: Knip and dead code
 subtitle: Unused files, unused exports, test-only exports and fields nobody reads
 guide-category: static-checks
-order: 4
+order: 5
 meta_description: >-
   How dead code is found and removed: knip in the chobble-template, a
   find-unused-src scan in tickets, a test-only-exports check, and a

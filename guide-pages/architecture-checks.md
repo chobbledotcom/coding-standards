@@ -2,7 +2,7 @@
 name: Architecture checks
 subtitle: A pure core, no import cycles, one name per module, and short files
 guide-category: static-checks
-order: 6
+order: 7
 meta_description: >-
   Checks that hold the shape of the codebase: an effect table that keeps the
   pure core away from the database, network and clock, a zero-cycle import

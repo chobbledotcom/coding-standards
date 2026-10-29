@@ -2,7 +2,7 @@
 name: Comment limits
 subtitle: Comments say only what the code cannot, held to a measured cap
 guide-category: static-checks
-order: 8
+order: 9
 meta_description: >-
   How the tickets repository measured its comments, set a 12-line and
   100-column cap, ratchets it down, and teaches agents to delete narration

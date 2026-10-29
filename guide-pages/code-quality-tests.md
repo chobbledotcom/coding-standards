@@ -2,11 +2,11 @@
 name: Code-quality tests
 subtitle: Tests that read the source code and fail on patterns you have banned
 guide-category: static-checks
-order: 7
+order: 8
 meta_description: >-
-  How the chobble-template uses ordinary unit tests to scan its own source
-  for banned patterns: single-use functions, mutable consts, html in
-  JavaScript, test-only exports, TODO comments and more.
+  The complete list of code-quality tests in the chobble-template and the
+  tickets repository: ordinary unit tests that scan the project's own
+  source for banned patterns.
 blocks:
   - type: guide-header
   - type: guide-navigation
@@ -31,32 +31,121 @@ blocks:
       for each is heavy. Writing a test is not.
 
       The [chobble-template](https://github.com/chobbledotcom/chobble-template)
-      keeps around forty of these in
+      keeps 42 of these in
       [`test/unit/code-quality/`](https://github.com/chobbledotcom/chobble-template/tree/main/test/unit/code-quality).
       Each one reads the source files, looks for a pattern, and fails with
       the file and line of every violation. They run with the rest of the
       suite, so they need no extra tooling.
 
-      ## A sample of what they catch
+      ## Every check, grouped
+
+      All 42 tests in the folder, grouped by what they protect. Each name
+      links to the test file, which explains the rule in its header.
+
+      ### Hiding errors
 
       | Test | What it bans |
       | --- | --- |
+      | [`or-fallbacks`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/or-fallbacks.test.js) | `x \|\| []`, `x \|\| ""` and other `\|\|` defaults that hide missing data. Defaults belong early in the data chain. |
+      | [`nullish-coalescing`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/nullish-coalescing.test.js) | `??` anywhere outside the collection builders and shared packages, where defaults are set once |
+      | [`data-fallbacks`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/data-fallbacks.test.js) | `item.data.title ?? ""` style fallbacks on collection data, which is already typed |
+      | [`try-catch-usage`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/try-catch-usage.test.js) | `try`/`catch` outside the allow-list in the exceptions file |
+
+      ### Mutation and state
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`let-usage`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/let-usage.test.js) | `let`, and "mutable `const`": `const x = []`, `{}`, `new Set()` or `new Map()` |
+      | [`array-push`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/array-push.test.js) | `.push()`. Build a new array with `map`, `filter` or `reduce`. |
+      | [`object-mutation`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/object-mutation.test.js) | `obj[key] = value` assignments |
+
+      ### Size and structure
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`function-length`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/function-length.test.js) | Functions over 30 lines (20 preferred) |
       | [`single-use-functions`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/single-use-functions.test.js) | Unexported functions called exactly once, which add indirection without reuse |
-      | [`test-only-exports`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/test-only-exports.test.js) | Exports from `src/` that only tests import |
-      | [`object-mutation`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/object-mutation.test.js) | Mutating objects in place instead of building new ones |
-      | [`let-usage`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/let-usage.test.js) | `let` where `const` and a pipeline would do |
-      | [`html-in-js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/html-in-js.test.js) | HTML built in JavaScript strings instead of templates |
-      | [`or-fallbacks`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/or-fallbacks.test.js), [`nullish-coalescing`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/nullish-coalescing.test.js) | Defaults that hide missing data |
-      | [`try-catch-usage`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/try-catch-usage.test.js) | `try`/`catch` outside a short allow-list |
+      | [`duplicate-methods`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/duplicate-methods.test.js) | The same function name defined in more than one file, a sign that two files should share one helper |
+      | [`test-only-exports`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/test-only-exports.test.js) | Exports from `src/` and `packages/` that only tests import |
+      | [`memoize-inside-function`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/memoize-inside-function.test.js) | `memoize()` inside a function body, which makes a new, empty cache on every call |
+      | [`nested-array-lookup`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/nested-array-lookup.test.js) | `.find()` or `.filter()` inside another loop's callback: O(n×m) work where an index would be O(n+m) |
+      | [`short-circuit-order`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/short-circuit-order.test.js) | `arr.includes(x) && id === y`. Put the cheap equality check first. |
+
+      ### Naming, style and comments
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`aliasing`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/aliasing.test.js) | `const alias = fn`, `const alias = obj.prop`: a second name for the same thing |
+      | [`destructuring`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/destructuring.test.js) | `const { foo } = bar`. Write `bar.foo` so the source of each value stays visible. |
+      | [`naming-conventions`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/naming-conventions.test.js) | camelCase names longer than four words |
+      | [`then-usage`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/then-usage.test.js) | `.then()` chains. Use `async`/`await`. |
+      | [`relative-paths`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/relative-paths.test.js) | `../` imports, and over-broad `#src/` aliases, where a specific alias exists |
+      | [`inline-type-annotations`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/inline-type-annotations.test.js) | JSDoc `@type` comments inside function bodies |
+      | [`comment-limits`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/comment-limits.test.js) | More than five lines of inline comments in a file, beyond the header. Agents over-comment. |
       | [`commented-code`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/commented-code.test.js) | Code left in comments |
       | [`todo-fixme-comments`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/todo-fixme-comments.test.js) | `TODO` and `FIXME`, which belong in issues |
-      | [`memoize-inside-function`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/memoize-inside-function.test.js) | A cache created per call, which caches nothing |
-      | [`relative-paths`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/relative-paths.test.js) | `../../` imports where an alias exists |
-      | [`unused-classes`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/unused-classes.test.js), [`unused-images`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/unused-images.test.js) | CSS classes and image files nothing uses |
-      | [`duplicate-methods`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/duplicate-methods.test.js) | Two methods with the same body |
-      | [`backwards-compat`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/backwards-compat.test.js) | Compatibility shims for internal APIs |
-      | `lockfile` | A lockfile from the wrong package manager |
-      | [`pages-yml-freshness`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/pages-yml-freshness.test.js) | A generated CMS config that has drifted from its source |
+      | [`backwards-compat`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/backwards-compat.test.js) | Any mention of "backwards compatibility", which in an internal codebase means a shim nobody needs |
+
+      ### Templates, CSS and the site
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`html-in-js`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/html-in-js.test.js) | HTML built in JavaScript strings instead of templates |
+      | [`url-construction`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/url-construction.test.js) | Hard-coded collection paths such as `/products/` in URLs. The paths come from the strings file, so a site can rename them. |
+      | [`unused-classes`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/unused-classes.test.js) | Classes in the HTML that no stylesheet or script uses |
+      | [`unused-images`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/unused-images.test.js) | Image files that no page uses |
+      | [`design-system-scoping`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/design-system-scoping.test.js) | SCSS rules outside the `.design-system { }` scope |
+      | [`template-selectors`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/template-selectors.test.js) | An element ID in `selectors.js` that no HTML template contains |
+      | [`unregistered-collections`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/unregistered-collections.test.js) | `collections.foo` in a template when no `foo` collection is registered |
+      | [`data-exports`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/data-exports.test.js) | Data files that mix named and default exports, which breaks Eleventy |
+      | [`block-markdown-rendering`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/block-markdown-rendering.test.js) | A content block that renders a plain-text field as Markdown, or a Markdown field without the `prose` styles |
+
+      ### Generated files
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`pages-yml-freshness`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/pages-yml-freshness.test.js) | A committed CMS config, `.pages.yml`, that no longer matches what its generator produces |
+      | [`pages-yml-reference-names`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/pages-yml-reference-names.test.js) | A collection entry the CMS refers to that has no `name` field |
+      | [`type-generation-freshness`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/type-generation-freshness.test.js) | Generated TypeScript types that have drifted from `.pages.yml` |
+      | [`lockfile`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/lockfile.test.js) | Any lockfile except `bun.lock` |
+
+      ### Tests
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`test-quality`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/test-quality.test.js) | Vague test names (`test1`, `works`), names with more than one "and", assertions without a message, set-then-assert tautologies, and `async` tests that never `await` |
+      | [`mock-module-usage`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/mock-module-usage.test.js) | Bare `mock.module()`, which leaks into other test files. Use the `mockModule` helper, which restores the module. |
+      | [`dom-mocking`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/dom-mocking.test.js) | `globalThis.document` and `new DOM()`, when the test DOM is already global |
+
+      ### The checkers themselves
+
+      | Test | What it bans |
+      | --- | --- |
+      | [`code-scanner`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/code-scanner.test.js) | Unit tests for the shared scanner that every check above uses |
+      | [`test-hygiene`](https://github.com/chobbledotcom/chobble-template/blob/main/test/unit/code-quality/test-hygiene.test.js) | Empty file lists. A check that scans no files passes, and nobody notices. |
+
+      ## The same idea in tickets
+
+      The tickets repository keeps its version in one file,
+      [`test/integration/code-quality.test.ts`](https://github.com/chobbledotcom/tickets/blob/main/test/integration/code-quality.test.ts).
+      It scans the real `src/` and `test/` trees and expects zero
+      violations. The detectors live in
+      [`test/scripts/code-quality/`](https://github.com/chobbledotcom/tickets/tree/main/test/scripts/code-quality),
+      and each one has its own fixture tests that prove it fires on bad
+      code and stays quiet on good code. These are all ten rules:
+
+      | Rule | What it bans |
+      | --- | --- |
+      | No in-memory state | Module-level `Map` or `Set` in `src/`. An edge function can run on many isolates, so state there is not shared. Six caches are allowed, each with a comment. |
+      | DB writes go through the client | `getDb().execute` or `.batch` outside the database client. A raw write skips cache invalidation. |
+      | Numbered parameters | SQL text that spells a `?N` token by hand. Each value binds once through the numbered binder. |
+      | No aliasing | A module-level second name for an existing function or value |
+      | No module-level `let` | Mutable module state. Use `const` with `once()` or `lazyRef()`. |
+      | No `.then()` | Promise chains. Use `async`/`await`. |
+      | No `../` imports | Relative parent imports. Use a `#` alias. |
+      | No test-only exports | Exports from `src/` that only tests use. See [Dead code](/techniques/static-checks/dead-code/). |
+      | No redundant constant arguments | A function that every caller passes the same constant. Use a default parameter or a constant instead. |
+      | No duplicate type shapes | Two differently named types with the same members. Make them one shared type. |
 
       ## The shape of one check
 

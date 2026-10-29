@@ -2,7 +2,7 @@
 name: jscpd and its variants
 subtitle: Copy-paste detection at a 0% threshold, eight scans deep
 guide-category: static-checks
-order: 3
+order: 4
 meta_description: >-
   How the tickets repository runs jscpd at a 0% duplication threshold:
   per-tree token limits, the ignoreIdentifiers, ignoreLiterals and

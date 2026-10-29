@@ -79,7 +79,8 @@ blocks:
 
       The part of [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
       that checks your code uses values the way their types say, before the
-      code runs. `deno check` and `tsc --noEmit` run it on their own.
+      code runs. `deno check` and `tsc --noEmit` run it on their own. See
+      [Strict type checking](/techniques/static-checks/strict-types/).
 
       <h3 id="jscpd">jscpd (copy-paste detector)</h3>
 

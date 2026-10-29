@@ -2,7 +2,7 @@
 name: Offensive programming
 subtitle: Never suppress an error, never default away a missing value
 guide-category: static-checks
-order: 5
+order: 6
 meta_description: >-
   The fail-loudly rules and the checks behind them: no empty catch blocks,
   no unchecked double casts, no fallback operators hiding missing data,

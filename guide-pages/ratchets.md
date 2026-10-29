@@ -2,7 +2,7 @@
 name: Ratchets
 subtitle: Lists that only shrink, so a check is strict for new code on day one
 guide-category: static-checks
-order: 2
+order: 3
 meta_description: >-
   The ratchet pattern: baselines, registries and exception lists that can
   only get smaller, with update commands that refuse a rise. Used for
